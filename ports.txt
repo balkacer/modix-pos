@@ -1,0 +1,8 @@
+api-gateway: 3000
+auth-service: 3001
+business-service: 3002
+catalog-service: 3003
+sales-service: 3004
+payment-service: 3005
+pos-app: 5173
+admin-dashboard: 5174

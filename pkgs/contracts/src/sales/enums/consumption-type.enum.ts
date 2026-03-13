@@ -1,4 +1,3 @@
-// pkgs/contracts/src/sales/enums/consumption-type.enum.ts
 export enum ConsumptionType {
   PICKUP = 'pickup',
   TAKEAWAY = 'takeaway',

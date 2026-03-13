@@ -6,13 +6,11 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "allowJs": false,
     "skipLibCheck": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "strict": true,
-    "baseUrl": "."
+    "types": ["react", "react-dom"],
+    "strict": true
   },
-  "include": ["src"],
-  "references": []
+  "include": ["src"]
 }

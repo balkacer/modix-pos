@@ -1,6 +1,3 @@
-// pkgs/config/src/env/get-number-env.ts
-import { getEnv } from './get-env';
-
 export const getNumberEnv = (key: string, fallback?: number): number => {
   const rawValue = process.env[key] ?? fallback?.toString();
 

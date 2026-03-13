@@ -1,4 +1,3 @@
-// pkgs/contracts/src/sales/enums/order-status.enum.ts
 export enum OrderStatus {
   DRAFT = 'draft',
   PENDING_PAYMENT = 'pending_payment',
