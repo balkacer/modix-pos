@@ -1,0 +1,46 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "lib": ["ES2022"],
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noUncheckedIndexedAccess": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "declaration": true,
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "baseUrl": ".",
+    "paths": {
+      "@modix/apps/api-gateway/*": ["apps/api-gateway/src/*"],
+      "@modix/apps/auth-service/*": ["apps/auth-service/src/*"],
+      "@modix/apps/business-service/*": ["apps/business-service/src/*"],
+      "@modix/apps/catalog-service/*": ["apps/catalog-service/src/*"],
+      "@modix/apps/sales-service/*": ["apps/sales-service/src/*"],
+      "@modix/apps/payment-service/*": ["apps/payment-service/src/*"],
+
+      "@modix/client/pos-app/*": ["client/pos-app/src/*"],
+      "@modix/client/admin-dashboard/*": ["client/admin-dashboard/src/*"],
+
+      "@modix/pkgs/common": ["pkgs/common/src/index.ts"],
+      "@modix/pkgs/common/*": ["pkgs/common/src/*"],
+      "@modix/pkgs/config": ["pkgs/config/src/index.ts"],
+      "@modix/pkgs/config/*": ["pkgs/config/src/*"],
+      "@modix/pkgs/contracts": ["pkgs/contracts/src/index.ts"],
+      "@modix/pkgs/contracts/*": ["pkgs/contracts/src/*"],
+      "@modix/pkgs/database": ["pkgs/database/src/index.ts"],
+      "@modix/pkgs/database/*": ["pkgs/database/src/*"],
+      "@modix/pkgs/logger": ["pkgs/logger/src/index.ts"],
+      "@modix/pkgs/logger/*": ["pkgs/logger/src/*"],
+      "@modix/pkgs/messaging": ["pkgs/messaging/src/index.ts"],
+      "@modix/pkgs/messaging/*": ["pkgs/messaging/src/*"],
+      "@modix/pkgs/testing": ["pkgs/testing/src/index.ts"],
+      "@modix/pkgs/testing/*": ["pkgs/testing/src/*"]
+    }
+  }
+}

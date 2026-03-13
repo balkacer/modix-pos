@@ -1,0 +1,32 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: modix-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: modix
+      POSTGRES_PASSWORD: modix
+      POSTGRES_DB: modix
+    ports:
+      - '5432:5432'
+    volumes:
+      - modix_postgres_data:/var/lib/postgresql/data
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: modix-rabbitmq
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: modix
+      RABBITMQ_DEFAULT_PASS: modix
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    volumes:
+      - modix_rabbitmq_data:/var/lib/rabbitmq
+
+volumes:
+  modix_postgres_data:
+  modix_rabbitmq_data:
