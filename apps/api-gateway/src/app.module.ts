@@ -6,6 +6,8 @@ import { BusinessModule } from './modules/business/business.module';
 import { HealthModule } from './modules/health/health.module';
 import { HttpModule } from './shared/http/http.module';
 import { CatalogModule } from './modules/catalog/catalog.module';
+import { SalesModule } from './modules/sales/sales.module';
+import { PaymentsModule } from './modules/payments/payments.module';
 
 @Module({
   imports: [
@@ -18,6 +20,8 @@ import { CatalogModule } from './modules/catalog/catalog.module';
     AuthModule,
     BusinessModule,
     CatalogModule,
+    SalesModule,
+    PaymentsModule,
   ]
 })
 export class AppModule { }

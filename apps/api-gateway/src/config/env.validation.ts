@@ -8,6 +8,8 @@ export const envSchema = z.object({
   AUTH_SERVICE_BASE_URL: z.string().default('http://localhost:3001'),
   BUSINESS_SERVICE_BASE_URL: z.string().default('http://localhost:3002'),
   CATALOG_SERVICE_BASE_URL: z.string().default('http://localhost:3003'),
+  SALES_SERVICE_BASE_URL: z.string().default('http://localhost:3004'),
+  PAYMENT_SERVICE_BASE_URL: z.string().default('http://localhost:3005'),
 });
 
 export type EnvSchema = z.infer<typeof envSchema>;

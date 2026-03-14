@@ -5,4 +5,5 @@ export interface CreatePaymentRequestDto {
   paymentMethod: PaymentMethod;
   paymentReference?: string;
   amount: number;
+  processedByUserId: string;
 }
