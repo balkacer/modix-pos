@@ -5,6 +5,8 @@
     }
   ],
   "settings": {
-    "cSpell.words": ["modix", "PEDIDOS", "pkgs"]
+    "cSpell.words": ["modix", "PEDIDOS", "pkgs"],
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }
