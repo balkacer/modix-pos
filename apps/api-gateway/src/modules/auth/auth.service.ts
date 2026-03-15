@@ -1,8 +1,4 @@
-import {
-  Inject,
-  Injectable,
-  InternalServerErrorException
-} from '@nestjs/common';
+import { Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import axios from 'axios';
 import { LoginRequestDto, LoginResponseDto } from '@modix/pkgs/contracts';
@@ -16,7 +12,7 @@ export class AuthService {
     private readonly httpService: HttpService,
     @Inject(appConfig.KEY)
     private readonly config: ConfigType<typeof appConfig>
-  ) { }
+  ) {}
 
   async login(payload: LoginRequestDto): Promise<LoginResponseDto> {
     try {

@@ -17,7 +17,11 @@ export class HealthController {
       }
     }
   })
-  check(): { success: boolean; message: string; data: { status: string; service: string } } {
+  check(): {
+    success: boolean;
+    message: string;
+    data: { status: string; service: string };
+  } {
     return {
       success: true,
       message: 'Gateway is healthy',

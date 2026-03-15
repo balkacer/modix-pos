@@ -3,11 +3,12 @@ import { useQuery } from '@tanstack/react-query';
 import { OrderResponseDto, OrderStatus } from '@modix/pkgs/contracts';
 import { getOrders } from '../api/get-orders';
 import { useSalesStore } from '../store/sales.store';
+import { useOrderStore } from '../../orders/store/order.store';
+import { useOrderMetaStore } from '../../orders/store/order-meta.store';
 import { AppButton } from '../../../shared/ui/primitives/app-button';
 import { AppCard } from '../../../shared/ui/primitives/app-card';
 import { EmptyState } from '../../../shared/ui/primitives/empty-state';
 import { StatusPill } from '../../../shared/ui/primitives/status-pill';
-import { useOrderStore } from '../../orders/store/order.store';
 
 const ACTIVE_ORDER_STATUSES: OrderStatus[] = [
   OrderStatus.DRAFT,
@@ -19,7 +20,11 @@ const ACTIVE_ORDER_STATUSES: OrderStatus[] = [
 
 export function ActiveOrdersPanel() {
   const setActiveOrder = useSalesStore((state) => state.setActiveOrder);
+  const clearActiveOrder = useSalesStore((state) => state.clearActiveOrder);
   const clearOrder = useOrderStore((state) => state.clearOrder);
+  const hydrateFromDraftOrder = useOrderStore((state) => state.hydrateFromDraftOrder);
+  const setConsumptionType = useOrderMetaStore((state) => state.setConsumptionType);
+  const setEditingDraftOrderId = useSalesStore((state) => state.setEditingDraftOrderId);
 
   const ordersQuery = useQuery({
     queryKey: ['sales-orders'],
@@ -33,9 +38,35 @@ export function ActiveOrdersPanel() {
     );
   }, [ordersQuery.data]);
 
+  const handleLoadOrder = (order: OrderResponseDto): void => {
+    if (order.status === OrderStatus.DRAFT) {
+      clearActiveOrder();
+      setEditingDraftOrderId(order.id);
+      hydrateFromDraftOrder({
+        items: order.items.map((item) => ({
+          productId: item.productId,
+          productCode: item.productCodeSnapshot,
+          productName: item.productNameSnapshot,
+          unitPrice: item.unitPriceSnapshot,
+          quantity: item.quantity,
+          subtotal: item.subtotal
+        })),
+        notes: order.notes
+      });
+      setConsumptionType(order.consumptionType);
+      return;
+    }
+
+    setEditingDraftOrderId(null);
+    clearOrder();
+    setActiveOrder(order);
+  };
 
   return (
-    <AppCard title="Active Orders" subtitle="Resume and monitor orders currently in progress">
+    <AppCard
+      title="Active Orders"
+      subtitle="Resume and monitor orders currently in progress"
+    >
       {ordersQuery.isPending ? <p>Loading active orders...</p> : null}
 
       {ordersQuery.isError ? (
@@ -57,10 +88,7 @@ export function ActiveOrdersPanel() {
           <ActiveOrderRow
             key={order.id}
             order={order}
-            onSelect={() => {
-              clearOrder();
-              setActiveOrder(order);
-            }}
+            onSelect={() => handleLoadOrder(order)}
           />
         ))}
       </div>
@@ -110,7 +138,7 @@ function ActiveOrderRow({ order, onSelect }: ActiveOrderRowProps) {
 
       <div>
         <AppButton type="button" variant="secondary" onClick={onSelect}>
-          Load order
+          {order.status === OrderStatus.DRAFT ? 'Edit draft' : 'Load order'}
         </AppButton>
       </div>
     </div>

@@ -49,11 +49,15 @@ export class MockBusinessRepository {
   }
 
   getCashRegistersByBranchId(branchId: string): CashRegisterResponseDto[] {
-    return this.cashRegisters.filter((cashRegister) => cashRegister.branchId === branchId);
+    return this.cashRegisters.filter(
+      (cashRegister) => cashRegister.branchId === branchId
+    );
   }
 
   getOpenCashShifts(): CashShiftResponseDto[] {
-    return this.cashShifts.filter((cashShift) => cashShift.status === CashShiftStatus.OPEN);
+    return this.cashShifts.filter(
+      (cashShift) => cashShift.status === CashShiftStatus.OPEN
+    );
   }
 
   openCashShift(payload: {
@@ -78,7 +82,9 @@ export class MockBusinessRepository {
     );
 
     if (openShift) {
-      throw new ConflictException('There is already an open shift for this cash register');
+      throw new ConflictException(
+        'There is already an open shift for this cash register'
+      );
     }
 
     const createdShift: CashShiftResponseDto = {

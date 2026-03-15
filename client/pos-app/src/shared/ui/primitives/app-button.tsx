@@ -2,8 +2,9 @@ import { ButtonHTMLAttributes, PropsWithChildren } from 'react';
 
 type ButtonVariant = 'primary' | 'secondary' | 'danger';
 
-interface AppButtonProps
-  extends PropsWithChildren<ButtonHTMLAttributes<HTMLButtonElement>> {
+interface AppButtonProps extends PropsWithChildren<
+  ButtonHTMLAttributes<HTMLButtonElement>
+> {
   variant?: ButtonVariant;
   fullWidth?: boolean;
 }

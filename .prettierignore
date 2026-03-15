@@ -2,4 +2,9 @@ node_modules
 dist
 build
 coverage
-.pnpm-store
+.turbo
+.next
+out
+*.log
+*.lock
+pnpm-lock.yaml

@@ -1,7 +1,4 @@
-import {
-  CashShiftResponseDto,
-  OpenCashShiftRequestDto
-} from '@modix/pkgs/contracts';
+import { CashShiftResponseDto, OpenCashShiftRequestDto } from '@modix/pkgs/contracts';
 import { apiClient } from '../../../services/http/api-client';
 
 export const openCashShift = async (

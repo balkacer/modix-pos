@@ -14,7 +14,10 @@ export class UpdateOrderStatusUseCase {
   execute(orderId: string, payload: UpdateOrderStatusDto): OrderResponseDto {
     const currentOrder = this.mockSalesRepository.getOrderById(orderId);
 
-    this.orderStatusTransitionService.validateTransition(currentOrder.status, payload.status);
+    this.orderStatusTransitionService.validateTransition(
+      currentOrder.status,
+      payload.status
+    );
 
     return this.mockSalesRepository.updateOrderStatus(orderId, payload.status);
   }

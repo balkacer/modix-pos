@@ -4,17 +4,24 @@ import { sessionStorageService } from '../../../shared/storage/session-storage.s
 
 interface SalesState {
   activeOrder: OrderResponseDto | null;
+  editingDraftOrderId: string | null;
   setActiveOrder: (order: OrderResponseDto) => void;
+  setEditingDraftOrderId: (orderId: string | null) => void;
   hydrateActiveOrder: () => void;
   clearActiveOrder: () => void;
 }
 
 export const useSalesStore = create<SalesState>((set) => ({
   activeOrder: sessionStorageService.getActiveOrder(),
+  editingDraftOrderId: null,
 
   setActiveOrder: (order) => {
     sessionStorageService.setActiveOrder(order);
     set({ activeOrder: order });
+  },
+
+  setEditingDraftOrderId: (orderId) => {
+    set({ editingDraftOrderId: orderId });
   },
 
   hydrateActiveOrder: () => {
@@ -25,6 +32,9 @@ export const useSalesStore = create<SalesState>((set) => ({
 
   clearActiveOrder: () => {
     sessionStorageService.clearActiveOrder();
-    set({ activeOrder: null });
+    set({
+      activeOrder: null,
+      editingDraftOrderId: null
+    });
   }
 }));

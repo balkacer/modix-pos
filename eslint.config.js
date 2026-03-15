@@ -5,12 +5,7 @@ const prettier = require('eslint-config-prettier');
 
 module.exports = tseslint.config(
   {
-    ignores: [
-      '**/dist/**',
-      '**/build/**',
-      '**/coverage/**',
-      '**/node_modules/**'
-    ]
+    ignores: ['**/dist/**', '**/build/**', '**/coverage/**', '**/node_modules/**']
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,

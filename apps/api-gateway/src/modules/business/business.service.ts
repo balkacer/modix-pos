@@ -99,4 +99,18 @@ export class BusinessService {
       throw mapAxiosErrorToHttpException(error);
     }
   }
+
+  async getOpenCashShiftByCashRegisterId(
+    cashRegisterId: string
+  ): Promise<CashShiftResponseDto> {
+    try {
+      const response = await this.httpService.get<CashShiftResponseDto>(
+        `${this.config.services.businessServiceBaseUrl}/cash-shifts/open/by-cash-register/${cashRegisterId}`
+      );
+
+      return response.data;
+    } catch (error: unknown) {
+      throw mapAxiosErrorToHttpException(error);
+    }
+  }
 }

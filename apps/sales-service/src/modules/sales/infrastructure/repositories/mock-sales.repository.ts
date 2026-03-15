@@ -4,7 +4,8 @@ import {
   CreateOrderRequestDto,
   MarkOrderPaidRequestDto,
   OrderResponseDto,
-  OrderStatus
+  OrderStatus,
+  UpdateDraftOrderRequestDto
 } from '@modix/pkgs/contracts';
 
 @Injectable()
@@ -57,6 +58,40 @@ export class MockSalesRepository {
     };
 
     this.orders.push(order);
+
+    return order;
+  }
+
+  updateDraftOrder(
+    orderId: string,
+    payload: UpdateDraftOrderRequestDto
+  ): OrderResponseDto {
+    const order = this.getOrderById(orderId);
+    const subtotal = payload.items.reduce((acc, item) => acc + item.subtotal, 0);
+
+    order.consumptionType = payload.consumptionType;
+    order.notes = payload.notes;
+    order.items = payload.items.map((item, index) => ({
+      id: `item_${String(index + 1).padStart(3, '0')}`,
+      productId: item.productId,
+      productCodeSnapshot: item.productCodeSnapshot,
+      productNameSnapshot: item.productNameSnapshot,
+      unitPriceSnapshot: item.unitPriceSnapshot,
+      quantity: item.quantity,
+      subtotal: item.subtotal
+    }));
+    order.subtotal = subtotal;
+    order.total = subtotal;
+    order.updatedAt = new Date().toISOString();
+
+    return order;
+  }
+
+  deleteDraftOrder(orderId: string): OrderResponseDto {
+    const order = this.getOrderById(orderId);
+    const orderIndex = this.orders.findIndex((item) => item.id === orderId);
+
+    this.orders.splice(orderIndex, 1);
 
     return order;
   }

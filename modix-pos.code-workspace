@@ -1,14 +1,10 @@
 {
-	"folders": [
-		{
-			"path": "."
-		}
-	],
-	"settings": {
-		"cSpell.words": [
-			"modix",
-			"PEDIDOS",
-			"pkgs"
-		]
-	}
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "cSpell.words": ["modix", "PEDIDOS", "pkgs"]
+  }
 }

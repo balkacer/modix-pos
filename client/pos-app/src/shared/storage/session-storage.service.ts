@@ -1,4 +1,8 @@
-import { LoginResponseDto, CashShiftResponseDto, OrderResponseDto } from '@modix/pkgs/contracts';
+import {
+  LoginResponseDto,
+  CashShiftResponseDto,
+  OrderResponseDto
+} from '@modix/pkgs/contracts';
 import { COOKIE_KEYS } from './cookie.constants';
 import { cookieService } from './cookie.service';
 

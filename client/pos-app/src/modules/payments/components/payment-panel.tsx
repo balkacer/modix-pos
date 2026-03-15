@@ -10,11 +10,15 @@ import { AppButton } from '../../../shared/ui/primitives/app-button';
 import { AppCard } from '../../../shared/ui/primitives/app-card';
 import { AppInput } from '../../../shared/ui/primitives/app-input';
 import { AppSelect } from '../../../shared/ui/primitives/app-select';
+import { usePermission } from '../../auth/hooks/use-permission';
+import { AccessDenied } from '../../../shared/ui/feedback/access-denied';
 
 export function PaymentPanel() {
   const user = useAuthStore((state) => state.user);
   const activeOrder = useSalesStore((state) => state.activeOrder);
   const setActiveOrder = useSalesStore((state) => state.setActiveOrder);
+
+  const canCreatePayment = usePermission('payments.create');
 
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>(PaymentMethod.CASH);
   const [paymentReference, setPaymentReference] = useState('');
@@ -44,6 +48,16 @@ export function PaymentPanel() {
 
   if (!activeOrder || activeOrder.status !== OrderStatus.PENDING_PAYMENT) {
     return null;
+  }
+
+  if (!canCreatePayment) {
+    return (
+      <AccessDenied
+        title="Process Payment"
+        subtitle="Payment processing is restricted for your current role"
+        description="Your user role does not allow processing payments."
+      />
+    );
   }
 
   const handlePay = (): void => {

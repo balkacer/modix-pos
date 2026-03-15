@@ -14,6 +14,7 @@ import { GetBusinessesUseCase } from '../../application/use-cases/get-businesses
 import { GetCashRegistersByBranchUseCase } from '../../application/use-cases/get-cash-registers-by-branch.use-case';
 import { GetOpenCashShiftsUseCase } from '../../application/use-cases/get-open-cash-shifts.use-case';
 import { OpenCashShiftUseCase } from '../../application/use-cases/open-cash-shift.use-case';
+import { GetOpenCashShiftByCashRegisterUseCase } from '../../application/use-cases/get-open-cash-shift-by-cash-register.use-case';
 
 @ApiTags('Business')
 @Controller()
@@ -24,7 +25,8 @@ export class BusinessController {
     private readonly getCashRegistersByBranchUseCase: GetCashRegistersByBranchUseCase,
     private readonly getOpenCashShiftsUseCase: GetOpenCashShiftsUseCase,
     private readonly openCashShiftUseCase: OpenCashShiftUseCase,
-    private readonly closeCashShiftUseCase: CloseCashShiftUseCase
+    private readonly closeCashShiftUseCase: CloseCashShiftUseCase,
+    private readonly getOpenCashShiftByCashRegisterUseCase: GetOpenCashShiftByCashRegisterUseCase
   ) {}
 
   @Get('businesses')
@@ -41,7 +43,9 @@ export class BusinessController {
 
   @Get('branches/:branchId/cash-registers')
   @ApiOkResponse()
-  getCashRegistersByBranch(@Param('branchId') branchId: string): CashRegisterResponseDto[] {
+  getCashRegistersByBranch(
+    @Param('branchId') branchId: string
+  ): CashRegisterResponseDto[] {
     return this.getCashRegistersByBranchUseCase.execute(branchId);
   }
 
@@ -64,5 +68,13 @@ export class BusinessController {
     @Body() payload: CloseCashShiftDto
   ): CashShiftResponseDto {
     return this.closeCashShiftUseCase.execute(cashShiftId, payload);
+  }
+
+  @Get('cash-shifts/open/by-cash-register/:cashRegisterId')
+  @ApiOkResponse()
+  getOpenCashShiftByCashRegister(
+    @Param('cashRegisterId') cashRegisterId: string
+  ): CashShiftResponseDto {
+    return this.getOpenCashShiftByCashRegisterUseCase.execute(cashRegisterId);
   }
 }

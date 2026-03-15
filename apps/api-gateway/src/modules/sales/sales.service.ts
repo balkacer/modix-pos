@@ -5,6 +5,7 @@ import {
   CreateOrderRequestDto,
   MarkOrderPaidRequestDto,
   OrderResponseDto,
+  UpdateDraftOrderRequestDto,
   UpdateOrderStatusRequestDto
 } from '@modix/pkgs/contracts';
 import { appConfig } from '../../config/app.config';
@@ -45,10 +46,26 @@ export class SalesService {
 
   async createOrder(payload: CreateOrderRequestDto): Promise<OrderResponseDto> {
     try {
-      const response = await this.httpService.post<OrderResponseDto, CreateOrderRequestDto>(
-        `${this.config.services.salesServiceBaseUrl}/orders`,
-        payload
-      );
+      const response = await this.httpService.post<
+        OrderResponseDto,
+        CreateOrderRequestDto
+      >(`${this.config.services.salesServiceBaseUrl}/orders`, payload);
+
+      return response.data;
+    } catch (error: unknown) {
+      throw mapAxiosErrorToHttpException(error);
+    }
+  }
+
+  async updateDraftOrder(
+    orderId: string,
+    payload: UpdateDraftOrderRequestDto
+  ): Promise<OrderResponseDto> {
+    try {
+      const response = await this.httpService.patch<
+        OrderResponseDto,
+        UpdateDraftOrderRequestDto
+      >(`${this.config.services.salesServiceBaseUrl}/orders/${orderId}/draft`, payload);
 
       return response.data;
     } catch (error: unknown) {
@@ -80,7 +97,10 @@ export class SalesService {
       const response = await this.httpService.patch<
         OrderResponseDto,
         MarkOrderPaidRequestDto
-      >(`${this.config.services.salesServiceBaseUrl}/orders/${orderId}/mark-paid`, payload);
+      >(
+        `${this.config.services.salesServiceBaseUrl}/orders/${orderId}/mark-paid`,
+        payload
+      );
 
       return response.data;
     } catch (error: unknown) {
@@ -93,9 +113,21 @@ export class SalesService {
     payload: CancelOrderRequestDto
   ): Promise<OrderResponseDto> {
     try {
-      const response = await this.httpService.patch<OrderResponseDto, CancelOrderRequestDto>(
-        `${this.config.services.salesServiceBaseUrl}/orders/${orderId}/cancel`,
-        payload
+      const response = await this.httpService.patch<
+        OrderResponseDto,
+        CancelOrderRequestDto
+      >(`${this.config.services.salesServiceBaseUrl}/orders/${orderId}/cancel`, payload);
+
+      return response.data;
+    } catch (error: unknown) {
+      throw mapAxiosErrorToHttpException(error);
+    }
+  }
+
+  async deleteDraftOrder(orderId: string): Promise<OrderResponseDto> {
+    try {
+      const response = await this.httpService.delete<OrderResponseDto>(
+        `${this.config.services.salesServiceBaseUrl}/orders/${orderId}/draft`
       );
 
       return response.data;

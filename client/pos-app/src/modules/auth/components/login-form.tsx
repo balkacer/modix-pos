@@ -20,7 +20,7 @@ export function LoginForm() {
   const errorMessage = useMemo(() => {
     const message =
       axios.isAxiosError(loginMutation.error) &&
-        typeof loginMutation.error.response?.data?.message === 'string'
+      typeof loginMutation.error.response?.data?.message === 'string'
         ? loginMutation.error.response.data.message
         : 'Login failed';
 
@@ -69,14 +69,16 @@ export function LoginForm() {
         />
       </div>
 
-      <button type="submit" disabled={loginMutation.isPending} style={{ padding: '10px' }}>
+      <button
+        type="submit"
+        disabled={loginMutation.isPending}
+        style={{ padding: '10px' }}
+      >
         {loginMutation.isPending ? 'Logging in...' : 'Login'}
       </button>
 
       {loginMutation.isError ? (
-        <div style={{ color: 'crimson' }}>
-          {errorMessage}
-        </div>
+        <div style={{ color: 'crimson' }}>{errorMessage}</div>
       ) : null}
 
       {loginMutation.isSuccess ? (

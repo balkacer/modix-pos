@@ -1,9 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
-import {
-  CreatePaymentRequestDto,
-  PaymentResponseDto
-} from '@modix/pkgs/contracts';
+import { CreatePaymentRequestDto, PaymentResponseDto } from '@modix/pkgs/contracts';
 import { appConfig } from '../../config/app.config';
 import { mapAxiosErrorToHttpException } from '../../shared/http/http-exception.mapper';
 import { HttpService } from '../../shared/http/http.service';

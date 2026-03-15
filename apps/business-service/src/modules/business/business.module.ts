@@ -7,6 +7,7 @@ import { GetOpenCashShiftsUseCase } from './application/use-cases/get-open-cash-
 import { OpenCashShiftUseCase } from './application/use-cases/open-cash-shift.use-case';
 import { BusinessController } from './infrastructure/controllers/business.controller';
 import { MockBusinessRepository } from './infrastructure/repositories/mock-business.repository';
+import { GetOpenCashShiftByCashRegisterUseCase } from './application/use-cases/get-open-cash-shift-by-cash-register.use-case';
 
 @Module({
   controllers: [BusinessController],
@@ -17,7 +18,8 @@ import { MockBusinessRepository } from './infrastructure/repositories/mock-busin
     GetCashRegistersByBranchUseCase,
     GetOpenCashShiftsUseCase,
     OpenCashShiftUseCase,
-    CloseCashShiftUseCase
+    CloseCashShiftUseCase,
+    GetOpenCashShiftByCashRegisterUseCase
   ]
 })
 export class BusinessModule {}

@@ -12,13 +12,19 @@ export interface CurrentOrderItem {
 
 interface OrderState {
   items: CurrentOrderItem[];
+  notes: string;
   addProduct: (product: ProductResponseDto) => void;
-  removeProduct: (productId: string) => void;
+  increaseQuantity: (productId: string) => void;
+  decreaseQuantity: (productId: string) => void;
+  setNotes: (value: string) => void;
+  hydrateFromDraftOrder: (payload: { items: CurrentOrderItem[]; notes?: string }) => void;
   clearOrder: () => void;
 }
 
 export const useOrderStore = create<OrderState>((set) => ({
   items: [],
+  notes: '',
+
   addProduct: (product) =>
     set((state) => {
       const existingItem = state.items.find((item) => item.productId === product.id);
@@ -51,7 +57,21 @@ export const useOrderStore = create<OrderState>((set) => ({
         ]
       };
     }),
-  removeProduct: (productId) =>
+
+  increaseQuantity: (productId) =>
+    set((state) => ({
+      items: state.items.map((item) =>
+        item.productId === productId
+          ? {
+              ...item,
+              quantity: item.quantity + 1,
+              subtotal: (item.quantity + 1) * item.unitPrice
+            }
+          : item
+      )
+    })),
+
+  decreaseQuantity: (productId) =>
     set((state) => {
       const existingItem = state.items.find((item) => item.productId === productId);
 
@@ -77,5 +97,18 @@ export const useOrderStore = create<OrderState>((set) => ({
         )
       };
     }),
-  clearOrder: () => set({ items: [] })
+
+  setNotes: (value) => set({ notes: value }),
+
+  hydrateFromDraftOrder: (payload) =>
+    set({
+      items: payload.items,
+      notes: payload.notes ?? ''
+    }),
+
+  clearOrder: () =>
+    set({
+      items: [],
+      notes: ''
+    })
 }));

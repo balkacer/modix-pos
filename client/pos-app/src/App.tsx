@@ -14,6 +14,10 @@ import { PosShell } from './shared/ui/layout/pos-shell';
 import { AppCard } from './shared/ui/primitives/app-card';
 import { StatBadge } from './shared/ui/primitives/stat-badge';
 import { ActiveOrdersPanel } from './modules/sales/components/active-orders-panel';
+import { ShiftClosePanel } from './modules/business/components/shift-close-panel';
+import { AccessDebugPanel } from './modules/auth/components/access-debug-panel';
+import { ShiftRestoredBanner } from './modules/business/components/shift-restored-banner';
+import { ToastBanner } from './shared/ui/feedback/toast-banner';
 
 export function App() {
   const user = useAuthStore((state) => state.user);
@@ -37,22 +41,32 @@ export function App() {
               <StatBadge label="Gateway" value={healthQuery.data.data.status} />
               <StatBadge label="Service" value={healthQuery.data.data.service} />
               <StatBadge label="Session" value={user ? 'Active' : 'Guest'} />
-              <StatBadge label="Shift" value={activeShift ? activeShift.status : 'Closed'} />
+              <StatBadge
+                label="Shift"
+                value={activeShift ? activeShift.status : 'Closed'}
+              />
             </div>
           ) : null}
         </AppCard>
+
+        <ToastBanner />
+        <ShiftRestoredBanner />
 
         {!user ? (
           <AppCard title="Login" subtitle="Authenticate to begin operating the POS">
             <LoginForm />
           </AppCard>
         ) : !activeShift ? (
-          <AppCard title="Open Shift" subtitle="Select your operating context before selling">
+          <AppCard
+            title="Open Shift"
+            subtitle="Select your operating context before selling"
+          >
             <ShiftOpenForm />
           </AppCard>
         ) : (
           <>
             <PosContextBar />
+            <AccessDebugPanel />
 
             <div
               style={{
@@ -72,6 +86,7 @@ export function App() {
                 <CurrentOrderPanel />
                 <PaymentPanel />
                 <OrderWorkflowPanel />
+                <ShiftClosePanel />
               </div>
             </div>
           </>
