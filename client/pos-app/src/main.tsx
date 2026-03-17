@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import './index.css';
 import { App } from './App';
 import { QueryClientAppProvider } from './app/providers/query-client.provider';
 import { SessionHydrator } from './app/providers/session-hydrator';

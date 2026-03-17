@@ -1,24 +1,33 @@
 import { SelectHTMLAttributes } from 'react';
+import { componentStyles } from '../../../app/theme/component-styles';
+import { tokens } from '../../../app/theme/tokens';
 
 interface AppSelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   label: string;
 }
 
-export function AppSelect({ label, id, children, style, ...props }: AppSelectProps) {
+export function AppSelect({
+  label,
+  id,
+  children,
+  style,
+  ...props
+}: AppSelectProps) {
+  const selectId = id ?? `select-${label.toLowerCase().replace(/\s+/g, '-')}`;
+
   return (
-    <div style={{ display: 'grid', gap: 6 }}>
-      <label htmlFor={id} style={{ fontWeight: 500 }}>
+    <div style={{ display: 'grid', gap: tokens.spacing.sm }}>
+      <label htmlFor={selectId} style={componentStyles.label}>
         {label}
       </label>
+
       <select
-        id={id}
+        id={selectId}
+        aria-label={label}
+        title={label}
         {...props}
         style={{
-          width: '100%',
-          padding: 12,
-          borderRadius: 12,
-          border: '1px solid #d1d5db',
-          outline: 'none',
+          ...componentStyles.input,
           background: '#fff',
           ...style
         }}

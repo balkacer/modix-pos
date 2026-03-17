@@ -1,24 +1,27 @@
 import { useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { getCategories } from '../api/get-categories';
-import { getProducts } from '../api/get-products';
-import { getProductsByCategoryId } from '../api/get-products-by-category-id';
-import { useCatalogStore } from '../store/catalog.store';
-import { useOrderStore } from '../../orders/store/order.store';
+import { tokens } from '../../../app/theme/tokens';
 import { AppButton } from '../../../shared/ui/primitives/app-button';
-import { AppCard } from '../../../shared/ui/primitives/app-card';
 import { EmptyState } from '../../../shared/ui/primitives/empty-state';
-import { CatalogSearchBar } from './catalog-search-bar';
+import { WorkspaceSection } from '../../../shared/ui/patterns/workspace-section';
+import { useOrderStore } from '../../orders/store/order.store';
 import { useSalesStore } from '../../sales/store/sales.store';
+import { getCategories } from '../api/get-categories';
+import { getProductsByCategoryId } from '../api/get-products-by-category-id';
+import { getProducts } from '../api/get-products';
+import { useCatalogStore } from '../store/catalog.store';
+import { CatalogSearchBar } from './catalog-search-bar';
+import { ProductCard } from './product-card';
 
 export function CatalogPanel() {
   const addProduct = useOrderStore((state) => state.addProduct);
   const searchTerm = useCatalogStore((state) => state.searchTerm);
+
   const activeOrder = useSalesStore((state) => state.activeOrder);
   const editingDraftOrderId = useSalesStore((state) => state.editingDraftOrderId);
+  const canEditCatalog = !activeOrder || Boolean(editingDraftOrderId);
 
   const [selectedCategoryId, setSelectedCategoryId] = useState<string>('');
-  const canEditCatalog = !activeOrder || Boolean(editingDraftOrderId);
 
   const categoriesQuery = useQuery({
     queryKey: ['catalog-categories'],
@@ -47,86 +50,120 @@ export function CatalogPanel() {
   }, [productsQuery.data, searchTerm]);
 
   return (
-    <AppCard title="Catalog" subtitle="Tap a product to add it to the current order">
-      <CatalogSearchBar />
-
-      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 16 }}>
-        <AppButton
-          type="button"
-          variant={selectedCategoryId === '' ? 'primary' : 'secondary'}
-          onClick={() => setSelectedCategoryId('')}
-        >
-          All
-        </AppButton>
-
-        {categoriesQuery.data?.map((category) => (
-          <AppButton
-            key={category.id}
-            type="button"
-            variant={selectedCategoryId === category.id ? 'primary' : 'secondary'}
-            onClick={() => setSelectedCategoryId(category.id)}
-          >
-            {category.name}
-          </AppButton>
-        ))}
-      </div>
-
-      {productsQuery.isPending ? <p>Loading products...</p> : null}
-
-      {productsQuery.isError ? (
-        <EmptyState
-          title="Could not load products"
-          description="Please try again or verify the API connection."
-        />
-      ) : null}
-
-      {!productsQuery.isPending &&
-      !productsQuery.isError &&
-      filteredProducts.length === 0 ? (
-        <EmptyState
-          title="No matching products"
-          description="Try another category or adjust the search term."
-        />
-      ) : null}
-
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(190px, 1fr))',
-          gap: 12
-        }}
+    <div style={{ height: '100%', minHeight: 0 }}>
+      <WorkspaceSection
+        title="Catalog"
+        subtitle="Tap products to add them quickly to the active ticket"
+        rightSlot={
+          !canEditCatalog ? (
+            <span
+              style={{
+                padding: '6px 10px',
+                borderRadius: tokens.radius.pill,
+                background: tokens.colors.warningBg,
+                color: tokens.colors.warningText,
+                fontSize: tokens.typography.caption,
+                fontWeight: 800
+              }}
+            >
+              Order locked
+            </span>
+          ) : null
+        }
       >
-        {filteredProducts.map((product) => (
-          <button
-            key={product.id}
-            type="button"
-            disabled={!canEditCatalog}
-            onClick={() => {
-              if (canEditCatalog) {
-                addProduct(product);
-              }
-            }}
+        <div
+          style={{
+            display: 'flex',
+            gap: tokens.spacing.lg,
+            flexDirection: 'column',
+            minHeight: 0,
+            height: '100%'
+          }}
+        >
+          <CatalogSearchBar />
+
+          <div
             style={{
-              textAlign: 'left',
-              padding: 16,
-              borderRadius: 16,
-              border: '1px solid #e5e7eb',
-              background: '#fff',
-              cursor: canEditCatalog ? 'pointer' : 'not-allowed',
-              minHeight: 120,
-              opacity: canEditCatalog ? 1 : 0.6
+              display: 'flex',
+              gap: tokens.spacing.sm,
+              flexWrap: 'wrap',
+              padding: tokens.spacing.sm,
+              borderRadius: tokens.radius.md,
+              background: tokens.colors.surfaceAlt,
+              border: `1px solid ${tokens.colors.border}`,
+              maxHeight: 'content',
             }}
           >
-            <div style={{ fontWeight: 700, fontSize: 16 }}>{product.name}</div>
-            <div style={{ marginTop: 6, color: '#6b7280', fontSize: 13 }}>
-              {product.code}
+            <AppButton
+              type="button"
+              variant={selectedCategoryId === '' ? 'primary' : 'secondary'}
+              onClick={() => setSelectedCategoryId('')}
+              style={{ height: 45 }}
+            >
+              All
+            </AppButton>
+
+            {categoriesQuery.data?.map((category) => (
+              <AppButton
+                key={category.id}
+                type="button"
+                variant={selectedCategoryId === category.id ? 'primary' : 'secondary'}
+                onClick={() => setSelectedCategoryId(category.id)}
+                style={{ height: 45 }}
+              >
+                {category.name}
+              </AppButton>
+            ))}
+          </div>
+
+          {productsQuery.isPending ? <p>Loading products...</p> : null}
+
+          {productsQuery.isError ? (
+            <EmptyState
+              title="Could not load products"
+              description="Please try again or verify the API connection."
+            />
+          ) : null}
+
+          {!productsQuery.isPending &&
+            !productsQuery.isError &&
+            filteredProducts.length === 0 ? (
+            <EmptyState
+              title="No matching products"
+              description="Try another category or adjust the search term."
+            />
+          ) : null}
+
+          <div
+            style={{
+              minHeight: 0,
+              overflowY: 'auto',
+              paddingRight: 4
+            }}
+          >
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+                gap: tokens.spacing.md
+              }}
+            >
+              {filteredProducts.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  disabled={!canEditCatalog}
+                  onClick={() => {
+                    if (canEditCatalog) {
+                      addProduct(product);
+                    }
+                  }}
+                />
+              ))}
             </div>
-            <div style={{ marginTop: 12, color: '#166534', fontWeight: 700 }}>
-              RD$ {product.price.toFixed(2)}
-            </div>
-          </button>
-        ))}
-      </div>
-    </AppCard>
+          </div>
+        </div>
+      </WorkspaceSection>
+    </div>
   );
 }

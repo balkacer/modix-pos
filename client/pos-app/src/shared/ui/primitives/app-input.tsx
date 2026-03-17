@@ -1,4 +1,6 @@
 import { InputHTMLAttributes } from 'react';
+import { componentStyles } from '../../../app/theme/component-styles';
+import { tokens } from '../../../app/theme/tokens';
 
 interface AppInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -6,22 +8,12 @@ interface AppInputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 export function AppInput({ label, id, style, ...props }: AppInputProps) {
   return (
-    <div style={{ display: 'grid', gap: 6 }}>
-      <label htmlFor={id} style={{ fontWeight: 500 }}>
+    <div style={{ display: 'grid', gap: tokens.spacing.sm }}>
+      <label htmlFor={id} style={componentStyles.label}>
         {label}
       </label>
-      <input
-        id={id}
-        {...props}
-        style={{
-          width: '100%',
-          padding: 12,
-          borderRadius: 12,
-          border: '1px solid #d1d5db',
-          outline: 'none',
-          ...style
-        }}
-      />
+
+      <input id={id} {...props} style={{ ...componentStyles.input, ...style }} />
     </div>
   );
 }

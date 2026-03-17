@@ -1,4 +1,5 @@
-import { ButtonHTMLAttributes, PropsWithChildren } from 'react';
+import { ButtonHTMLAttributes, CSSProperties, PropsWithChildren } from 'react';
+import { componentStyles } from '../../../app/theme/component-styles';
 
 type ButtonVariant = 'primary' | 'secondary' | 'danger';
 
@@ -9,27 +10,15 @@ interface AppButtonProps extends PropsWithChildren<
   fullWidth?: boolean;
 }
 
-const getVariantStyles = (variant: ButtonVariant): React.CSSProperties => {
+const getVariantStyles = (variant: ButtonVariant): CSSProperties => {
   switch (variant) {
     case 'secondary':
-      return {
-        background: '#ffffff',
-        color: '#111827',
-        border: '1px solid #d1d5db'
-      };
+      return componentStyles.buttonSecondary;
     case 'danger':
-      return {
-        background: '#b91c1c',
-        color: '#ffffff',
-        border: '1px solid #991b1b'
-      };
+      return componentStyles.buttonDanger;
     case 'primary':
     default:
-      return {
-        background: '#111827',
-        color: '#ffffff',
-        border: '1px solid #111827'
-      };
+      return componentStyles.buttonPrimary;
   }
 };
 
@@ -44,13 +33,11 @@ export function AppButton({
     <button
       {...props}
       style={{
-        padding: '12px 14px',
-        borderRadius: 12,
-        fontWeight: 600,
-        cursor: props.disabled ? 'not-allowed' : 'pointer',
+        ...componentStyles.buttonBase,
+        ...getVariantStyles(variant),
         width: fullWidth ? '100%' : undefined,
         opacity: props.disabled ? 0.6 : 1,
-        ...getVariantStyles(variant),
+        cursor: props.disabled ? 'not-allowed' : 'pointer',
         ...style
       }}
     >

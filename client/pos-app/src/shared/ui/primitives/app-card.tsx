@@ -1,4 +1,6 @@
 import { PropsWithChildren } from 'react';
+import { componentStyles } from '../../../app/theme/component-styles';
+import { tokens } from '../../../app/theme/tokens';
 
 interface AppCardProps extends PropsWithChildren {
   title?: string;
@@ -7,20 +9,29 @@ interface AppCardProps extends PropsWithChildren {
 
 export function AppCard({ title, subtitle, children }: AppCardProps) {
   return (
-    <section
-      style={{
-        background: '#ffffff',
-        border: '1px solid #e5e7eb',
-        borderRadius: 16,
-        padding: 16,
-        boxShadow: '0 6px 20px rgba(0,0,0,0.05)'
-      }}
-    >
+    <section style={componentStyles.card}>
       {title ? (
-        <div style={{ marginBottom: 16 }}>
-          <h2 style={{ margin: 0, fontSize: 18 }}>{title}</h2>
+        <div style={{ marginBottom: tokens.spacing.lg }}>
+          <h2
+            style={{
+              margin: 0,
+              fontSize: tokens.typography.section,
+              color: tokens.colors.text
+            }}
+          >
+            {title}
+          </h2>
+
           {subtitle ? (
-            <p style={{ margin: '6px 0 0', color: '#6b7280' }}>{subtitle}</p>
+            <p
+              style={{
+                margin: '6px 0 0',
+                color: tokens.colors.textMuted,
+                fontSize: tokens.typography.subtitle
+              }}
+            >
+              {subtitle}
+            </p>
           ) : null}
         </div>
       ) : null}

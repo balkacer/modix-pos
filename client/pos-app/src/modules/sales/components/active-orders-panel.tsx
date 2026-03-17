@@ -1,14 +1,14 @@
 import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { OrderResponseDto, OrderStatus } from '@modix/pkgs/contracts';
-import { getOrders } from '../api/get-orders';
-import { useSalesStore } from '../store/sales.store';
-import { useOrderStore } from '../../orders/store/order.store';
-import { useOrderMetaStore } from '../../orders/store/order-meta.store';
+import { tokens } from '../../../app/theme/tokens';
 import { AppButton } from '../../../shared/ui/primitives/app-button';
-import { AppCard } from '../../../shared/ui/primitives/app-card';
 import { EmptyState } from '../../../shared/ui/primitives/empty-state';
 import { StatusPill } from '../../../shared/ui/primitives/status-pill';
+import { useOrderMetaStore } from '../../orders/store/order-meta.store';
+import { useOrderStore } from '../../orders/store/order.store';
+import { getOrders } from '../api/get-orders';
+import { useSalesStore } from '../store/sales.store';
 
 const ACTIVE_ORDER_STATUSES: OrderStatus[] = [
   OrderStatus.DRAFT,
@@ -21,10 +21,11 @@ const ACTIVE_ORDER_STATUSES: OrderStatus[] = [
 export function ActiveOrdersPanel() {
   const setActiveOrder = useSalesStore((state) => state.setActiveOrder);
   const clearActiveOrder = useSalesStore((state) => state.clearActiveOrder);
+  const setEditingDraftOrderId = useSalesStore((state) => state.setEditingDraftOrderId);
+
   const clearOrder = useOrderStore((state) => state.clearOrder);
   const hydrateFromDraftOrder = useOrderStore((state) => state.hydrateFromDraftOrder);
   const setConsumptionType = useOrderMetaStore((state) => state.setConsumptionType);
-  const setEditingDraftOrderId = useSalesStore((state) => state.setEditingDraftOrderId);
 
   const ordersQuery = useQuery({
     queryKey: ['sales-orders'],
@@ -62,37 +63,38 @@ export function ActiveOrdersPanel() {
     setActiveOrder(order);
   };
 
+  if (ordersQuery.isPending) {
+    return <p>Loading active orders...</p>;
+  }
+
+  if (ordersQuery.isError) {
+    return (
+      <EmptyState
+        title="Could not load active orders"
+        description="Please verify the sales API connection."
+      />
+    );
+  }
+
+  if (activeOrders.length === 0) {
+    return (
+      <EmptyState
+        title="No active orders"
+        description="Orders in draft, pending payment, paid, packing or ready will appear here."
+      />
+    );
+  }
+
   return (
-    <AppCard
-      title="Active Orders"
-      subtitle="Resume and monitor orders currently in progress"
-    >
-      {ordersQuery.isPending ? <p>Loading active orders...</p> : null}
-
-      {ordersQuery.isError ? (
-        <EmptyState
-          title="Could not load active orders"
-          description="Please verify the sales API connection."
+    <div style={{ display: 'grid', gap: tokens.spacing.md }}>
+      {activeOrders.map((order) => (
+        <ActiveOrderRow
+          key={order.id}
+          order={order}
+          onSelect={() => handleLoadOrder(order)}
         />
-      ) : null}
-
-      {!ordersQuery.isPending && !ordersQuery.isError && activeOrders.length === 0 ? (
-        <EmptyState
-          title="No active orders"
-          description="Orders in draft, pending payment, paid, packing or ready will appear here."
-        />
-      ) : null}
-
-      <div style={{ display: 'grid', gap: 12 }}>
-        {activeOrders.map((order) => (
-          <ActiveOrderRow
-            key={order.id}
-            order={order}
-            onSelect={() => handleLoadOrder(order)}
-          />
-        ))}
-      </div>
-    </AppCard>
+      ))}
+    </div>
   );
 }
 
@@ -105,25 +107,32 @@ function ActiveOrderRow({ order, onSelect }: ActiveOrderRowProps) {
   return (
     <div
       style={{
-        border: '1px solid #e5e7eb',
-        borderRadius: 14,
-        padding: 14,
+        border: `1px solid ${tokens.colors.border}`,
+        borderRadius: tokens.radius.md,
+        padding: tokens.spacing.md,
         display: 'grid',
-        gap: 10,
-        background: '#fff'
+        gap: tokens.spacing.sm,
+        background: tokens.colors.surfaceAlt
       }}
     >
       <div
         style={{
           display: 'flex',
           justifyContent: 'space-between',
-          alignItems: 'center',
-          gap: 12
+          alignItems: 'start',
+          gap: tokens.spacing.md
         }}
       >
         <div>
           <strong>{order.orderNumber}</strong>
-          <div style={{ color: '#6b7280', fontSize: 13 }}>
+          <div
+            style={{
+              color: tokens.colors.textMuted,
+              fontSize: tokens.typography.caption,
+              marginTop: 4,
+              textTransform: 'capitalize'
+            }}
+          >
             {order.consumptionType.replaceAll('_', ' ')}
           </div>
         </div>
@@ -131,8 +140,15 @@ function ActiveOrderRow({ order, onSelect }: ActiveOrderRowProps) {
         <StatusPill value={order.status} />
       </div>
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12 }}>
-        <span style={{ color: '#374151' }}>{order.items.length} item(s)</span>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          gap: tokens.spacing.md,
+          color: tokens.colors.text
+        }}
+      >
+        <span>{order.items.length} item(s)</span>
         <strong>RD$ {order.total.toFixed(2)}</strong>
       </div>
 

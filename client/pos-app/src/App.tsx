@@ -1,97 +1,81 @@
-import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 import { LoginForm } from './modules/auth/components/login-form';
 import { useAuthStore } from './modules/auth/store/auth.store';
-import { PosContextBar } from './modules/business/components/pos-context-bar';
 import { ShiftOpenForm } from './modules/business/components/shift-open-form';
+import { ShiftRestoredBanner } from './modules/business/components/shift-restored-banner';
+import { ShiftWorkspace } from './modules/business/components/shift-workspace';
 import { useShiftStore } from './modules/business/store/shift.store';
 import { CatalogPanel } from './modules/catalog/components/catalog-panel';
-import { getHealth } from './modules/health/api/get-health';
-import { OrderContextPanel } from './modules/orders/components/order-context-panel';
-import { CurrentOrderPanel } from './modules/orders/components/current-order-panel';
-import { PaymentPanel } from './modules/payments/components/payment-panel';
-import { OrderWorkflowPanel } from './modules/sales/components/order-workflow-panel';
-import { PosShell } from './shared/ui/layout/pos-shell';
-import { AppCard } from './shared/ui/primitives/app-card';
-import { StatBadge } from './shared/ui/primitives/stat-badge';
-import { ActiveOrdersPanel } from './modules/sales/components/active-orders-panel';
-import { ShiftClosePanel } from './modules/business/components/shift-close-panel';
-import { AccessDebugPanel } from './modules/auth/components/access-debug-panel';
-import { ShiftRestoredBanner } from './modules/business/components/shift-restored-banner';
+import { OrdersWorkspace } from './modules/orders/components/orders-workspace';
+import { PosSalesColumn } from './modules/pos/components/pos-sales-column';
 import { ToastBanner } from './shared/ui/feedback/toast-banner';
+import { ComingSoonPanel } from './shared/ui/feedback/coming-soon-panel';
+import { AppLayout } from './shared/ui/layout/app-layout';
+import { CompactOperationalStrip } from './shared/ui/layout/compact-operational-strip';
+import { PosContentGrid } from './shared/ui/layout/pos-content-grid';
+import { PosWorkspace } from './shared/ui/layout/pos-workspace';
+import { AppCard } from './shared/ui/primitives/app-card';
 
 export function App() {
   const user = useAuthStore((state) => state.user);
   const activeShift = useShiftStore((state) => state.activeShift);
+  const [activeView, setActiveView] = useState('pos');
 
-  const healthQuery = useQuery({
-    queryKey: ['gateway-health'],
-    queryFn: getHealth
-  });
+  const renderWorkspace = () => {
+    if (!user) {
+      return (
+        <AppCard title="Login" subtitle="Authenticate to begin operating the POS">
+          <LoginForm />
+        </AppCard>
+      );
+    }
+
+    if (!activeShift) {
+      return (
+        <AppCard title="Open Shift" subtitle="Select your operating context before selling">
+          <ShiftOpenForm />
+        </AppCard>
+      );
+    }
+
+    if (activeView === 'orders') {
+      return <OrdersWorkspace />;
+    }
+
+    if (activeView === 'shift') {
+      return <ShiftWorkspace />;
+    }
+
+    if (activeView === 'catalog') {
+      return <CatalogPanel />;
+    }
+
+    if (activeView === 'settings') {
+      return (
+        <ComingSoonPanel
+          title="Settings"
+          description="Business preferences, users, devices and configuration will appear here."
+        />
+      );
+    }
+
+    return (
+      <PosContentGrid
+        left={<CatalogPanel />}
+        right={<PosSalesColumn />}
+      />
+    );
+  };
 
   return (
-    <PosShell>
-      <div style={{ display: 'grid', gap: 24 }}>
-        <AppCard title="System Status" subtitle="Current platform and session health">
-          {healthQuery.isPending ? <p>Checking gateway...</p> : null}
-          {healthQuery.isError ? (
-            <p style={{ color: 'crimson' }}>Could not reach API Gateway.</p>
-          ) : null}
-          {healthQuery.data ? (
-            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-              <StatBadge label="Gateway" value={healthQuery.data.data.status} />
-              <StatBadge label="Service" value={healthQuery.data.data.service} />
-              <StatBadge label="Session" value={user ? 'Active' : 'Guest'} />
-              <StatBadge
-                label="Shift"
-                value={activeShift ? activeShift.status : 'Closed'}
-              />
-            </div>
-          ) : null}
-        </AppCard>
-
+    <AppLayout activeView={activeView} onChangeView={setActiveView}>
+      <PosWorkspace>
         <ToastBanner />
         <ShiftRestoredBanner />
+        <CompactOperationalStrip />
 
-        {!user ? (
-          <AppCard title="Login" subtitle="Authenticate to begin operating the POS">
-            <LoginForm />
-          </AppCard>
-        ) : !activeShift ? (
-          <AppCard
-            title="Open Shift"
-            subtitle="Select your operating context before selling"
-          >
-            <ShiftOpenForm />
-          </AppCard>
-        ) : (
-          <>
-            <PosContextBar />
-            <AccessDebugPanel />
-
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1.5fr 1fr',
-                gap: 24,
-                alignItems: 'start'
-              }}
-            >
-              <div>
-                <CatalogPanel />
-              </div>
-
-              <div style={{ display: 'grid', gap: 24 }}>
-                <OrderContextPanel />
-                <ActiveOrdersPanel />
-                <CurrentOrderPanel />
-                <PaymentPanel />
-                <OrderWorkflowPanel />
-                <ShiftClosePanel />
-              </div>
-            </div>
-          </>
-        )}
-      </div>
-    </PosShell>
+        {renderWorkspace()}
+      </PosWorkspace>
+    </AppLayout>
   );
 }

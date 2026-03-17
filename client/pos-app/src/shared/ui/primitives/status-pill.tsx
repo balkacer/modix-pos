@@ -1,22 +1,37 @@
+import { CSSProperties } from 'react';
+import { tokens } from '../../../app/theme/tokens';
+
 interface StatusPillProps {
   value: string;
 }
 
-const getStatusStyles = (value: string): React.CSSProperties => {
+const getStatusStyles = (value: string): CSSProperties => {
   switch (value) {
     case 'paid':
     case 'ready':
     case 'delivered':
     case 'open':
-      return { background: '#dcfce7', color: '#166534' };
+      return {
+        background: tokens.colors.successBg,
+        color: tokens.colors.successText
+      };
     case 'pending_payment':
     case 'packing':
-      return { background: '#fef3c7', color: '#92400e' };
+      return {
+        background: tokens.colors.warningBg,
+        color: tokens.colors.warningText
+      };
     case 'rejected':
     case 'cancelled':
-      return { background: '#fee2e2', color: '#991b1b' };
+      return {
+        background: tokens.colors.dangerBg,
+        color: tokens.colors.dangerText
+      };
     default:
-      return { background: '#e5e7eb', color: '#374151' };
+      return {
+        background: tokens.colors.surfaceAlt,
+        color: tokens.colors.text
+      };
   }
 };
 
@@ -27,9 +42,9 @@ export function StatusPill({ value }: StatusPillProps) {
         display: 'inline-flex',
         alignItems: 'center',
         padding: '6px 10px',
-        borderRadius: 999,
-        fontSize: 12,
-        fontWeight: 700,
+        borderRadius: tokens.radius.pill,
+        fontSize: tokens.typography.caption,
+        fontWeight: 800,
         textTransform: 'capitalize',
         ...getStatusStyles(value)
       }}

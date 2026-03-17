@@ -10,10 +10,7 @@ export function CatalogSearchBar() {
   return (
     <div
       style={{
-        display: 'grid',
-        gridTemplateColumns: '1fr auto',
-        gap: 12,
-        marginBottom: 16
+        position: 'relative',
       }}
     >
       <AppInput
@@ -24,9 +21,9 @@ export function CatalogSearchBar() {
         onChange={(event) => setSearchTerm(event.target.value)}
       />
 
-      <div style={{ display: 'flex', alignItems: 'end' }}>
-        <AppButton type="button" variant="secondary" onClick={clearSearchTerm}>
-          Clear
+      <div style={{ position: 'absolute', display: 'flex', justifyContent: 'center', alignItems: 'center', right: 0, top: 24.75, height: 40, paddingRight: 10 }}>
+        <AppButton type="button" variant="secondary" onClick={clearSearchTerm} style={{ width: 23, height: 23, padding: 0 }}>
+          <span>&#10005;</span>
         </AppButton>
       </div>
     </div>
