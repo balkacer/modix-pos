@@ -32,7 +32,10 @@ export function App() {
 
     if (!activeShift) {
       return (
-        <AppCard title="Open Shift" subtitle="Select your operating context before selling">
+        <AppCard
+          title="Open Shift"
+          subtitle="Select your operating context before selling"
+        >
           <ShiftOpenForm />
         </AppCard>
       );
@@ -59,12 +62,7 @@ export function App() {
       );
     }
 
-    return (
-      <PosContentGrid
-        left={<CatalogPanel />}
-        right={<PosSalesColumn />}
-      />
-    );
+    return <PosContentGrid left={<CatalogPanel />} right={<PosSalesColumn />} />;
   };
 
   return (

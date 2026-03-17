@@ -6,13 +6,7 @@ interface AppSelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   label: string;
 }
 
-export function AppSelect({
-  label,
-  id,
-  children,
-  style,
-  ...props
-}: AppSelectProps) {
+export function AppSelect({ label, id, children, style, ...props }: AppSelectProps) {
   const selectId = id ?? `select-${label.toLowerCase().replace(/\s+/g, '-')}`;
 
   return (

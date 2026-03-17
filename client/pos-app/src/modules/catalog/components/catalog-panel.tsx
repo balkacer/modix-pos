@@ -91,7 +91,7 @@ export function CatalogPanel() {
               borderRadius: tokens.radius.md,
               background: tokens.colors.surfaceAlt,
               border: `1px solid ${tokens.colors.border}`,
-              maxHeight: 'content',
+              maxHeight: 'content'
             }}
           >
             <AppButton
@@ -126,8 +126,8 @@ export function CatalogPanel() {
           ) : null}
 
           {!productsQuery.isPending &&
-            !productsQuery.isError &&
-            filteredProducts.length === 0 ? (
+          !productsQuery.isError &&
+          filteredProducts.length === 0 ? (
             <EmptyState
               title="No matching products"
               description="Try another category or adjust the search term."

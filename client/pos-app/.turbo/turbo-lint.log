@@ -1,0 +1,5 @@
+
+
+> @modix/client/pos-app@0.0.1 lint /Users/balkacer/Desktop/modix-pos/client/pos-app
+> eslint src --ext .ts,.tsx
+

@@ -10,7 +10,7 @@ export function WorkspaceContainer({ children }: PropsWithChildren) {
         flexDirection: 'column',
         minWidth: 0,
         minHeight: '100vh',
-        background: tokens.colors.bg,
+        background: tokens.colors.bg
       }}
     >
       <PosHeader />
@@ -22,7 +22,7 @@ export function WorkspaceContainer({ children }: PropsWithChildren) {
           flexDirection: 'column',
           gap: tokens.spacing.xl,
           minWidth: 0,
-          flex: 1,
+          flex: 1
         }}
       >
         {children}

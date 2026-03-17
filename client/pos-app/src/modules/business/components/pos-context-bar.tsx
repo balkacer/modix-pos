@@ -14,7 +14,10 @@ export function PosContextBar() {
   return (
     <AppCard title="Active Session" subtitle="Current operational context">
       <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-        <StatBadge label="Register" value={activeCashRegister?.name ?? activeShift.cashRegisterId} />
+        <StatBadge
+          label="Register"
+          value={activeCashRegister?.name ?? activeShift.cashRegisterId}
+        />
         <StatBadge label="Shift" value={activeShift.id} />
       </div>
     </AppCard>

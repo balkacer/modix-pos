@@ -1,0 +1,5 @@
+
+
+> @modix/pkgs/database@0.0.1 lint /Users/balkacer/Desktop/modix-pos/pkgs/database
+> eslint src --ext .ts
+

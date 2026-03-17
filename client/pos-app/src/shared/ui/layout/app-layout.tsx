@@ -8,11 +8,7 @@ interface AppLayoutProps extends PropsWithChildren {
   onChangeView: (view: string) => void;
 }
 
-export function AppLayout({
-  children,
-  activeView,
-  onChangeView
-}: AppLayoutProps) {
+export function AppLayout({ children, activeView, onChangeView }: AppLayoutProps) {
   const [collapsed, setCollapsed] = useState(false);
 
   return (

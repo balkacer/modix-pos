@@ -13,14 +13,14 @@ export function PosHeader() {
     ? 'MODIX POS'
     : isLoading
       ? 'Loading context...'
-      : activeBusiness?.name ?? 'MODIX POS';
+      : (activeBusiness?.name ?? 'MODIX POS');
 
   const branchLabel = hasOperationalContext
-    ? activeBranch?.name ?? activeShift?.branchId ?? '-'
+    ? (activeBranch?.name ?? activeShift?.branchId ?? '-')
     : '-';
 
   const registerLabel = hasOperationalContext
-    ? activeCashRegister?.name ?? activeShift?.cashRegisterId ?? '-'
+    ? (activeCashRegister?.name ?? activeShift?.cashRegisterId ?? '-')
     : '-';
 
   return (

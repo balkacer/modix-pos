@@ -59,7 +59,10 @@ export function OrderDetailDrawer() {
       rightSlot={<StatusPill value={selectedOrder.status} />}
     >
       <SectionCard>
-        <MetaRow label="Consumption" value={selectedOrder.consumptionType.replaceAll('_', ' ')} />
+        <MetaRow
+          label="Consumption"
+          value={selectedOrder.consumptionType.replaceAll('_', ' ')}
+        />
         <MetaRow label="Shift" value={selectedOrder.cashShiftId} />
         <MetaRow label="Register" value={selectedOrder.cashRegisterId} />
         <MetaRow label="Items" value={String(selectedOrder.items.length)} />
@@ -118,7 +121,9 @@ export function OrderDetailDrawer() {
 
       <div style={{ display: 'flex', gap: tokens.spacing.sm, flexWrap: 'wrap' }}>
         <AppButton type="button" onClick={handleOpenInWorkspace}>
-          {selectedOrder.status === OrderStatus.DRAFT ? 'Edit draft in POS' : 'Open in POS'}
+          {selectedOrder.status === OrderStatus.DRAFT
+            ? 'Edit draft in POS'
+            : 'Open in POS'}
         </AppButton>
 
         <AppButton type="button" variant="secondary" onClick={closeOrderDetail}>
@@ -129,13 +134,7 @@ export function OrderDetailDrawer() {
   );
 }
 
-function SectionCard({
-  title,
-  children
-}: {
-  title?: string;
-  children: React.ReactNode;
-}) {
+function SectionCard({ title, children }: { title?: string; children: React.ReactNode }) {
   return (
     <div
       style={{

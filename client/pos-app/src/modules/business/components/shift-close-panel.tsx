@@ -22,7 +22,6 @@ export function ShiftClosePanel() {
   const [closingAmount, setClosingAmount] = useState('');
   const [closeDialogOpen, setCloseDialogOpen] = useState(false);
 
-
   const closeShiftMutation = useMutation({
     mutationFn: ({
       cashShiftId,

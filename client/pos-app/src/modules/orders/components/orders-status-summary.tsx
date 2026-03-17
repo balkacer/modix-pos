@@ -49,8 +49,9 @@ export function OrdersStatusSummary({ orders }: OrdersStatusSummaryProps) {
             style={{
               padding: tokens.spacing.md,
               borderRadius: tokens.radius.lg,
-              border: `1px solid ${isActive ? tokens.colors.primary : tokens.colors.border
-                }`,
+              border: `1px solid ${
+                isActive ? tokens.colors.primary : tokens.colors.border
+              }`,
               background: isActive ? tokens.colors.primary : tokens.colors.surface,
               color: isActive ? '#ffffff' : tokens.colors.text,
               textAlign: 'left',

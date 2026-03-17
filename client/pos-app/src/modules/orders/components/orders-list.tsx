@@ -34,7 +34,9 @@ export function OrdersList() {
         ? order.orderNumber.toLowerCase().includes(normalizedSearch)
         : true;
 
-      const matchesShift = onlyCurrentShift ? order.cashShiftId === activeShift?.id : true;
+      const matchesShift = onlyCurrentShift
+        ? order.cashShiftId === activeShift?.id
+        : true;
 
       return matchesStatus && matchesSearch && matchesShift;
     });

@@ -7,12 +7,7 @@ interface TicketPanelProps extends PropsWithChildren {
   rightSlot?: ReactNode;
 }
 
-export function TicketPanel({
-  title,
-  subtitle,
-  rightSlot,
-  children
-}: TicketPanelProps) {
+export function TicketPanel({ title, subtitle, rightSlot, children }: TicketPanelProps) {
   return (
     <section
       style={{

@@ -7,11 +7,7 @@ interface ProductCardProps {
   onClick: () => void;
 }
 
-export function ProductCard({
-  product,
-  disabled = false,
-  onClick
-}: ProductCardProps) {
+export function ProductCard({ product, disabled = false, onClick }: ProductCardProps) {
   return (
     <button
       type="button"
@@ -43,11 +39,13 @@ export function ProductCard({
           right: 0
         }}
       >
-        <div style={{
-          background: tokens.colors.successBg,
-          padding: '4px',
-          borderRadius: tokens.radius.md,
-        }}></div>
+        <div
+          style={{
+            background: tokens.colors.successBg,
+            padding: '4px',
+            borderRadius: tokens.radius.md
+          }}
+        ></div>
       </div>
 
       <div
@@ -56,7 +54,7 @@ export function ProductCard({
           fontSize: 16,
           color: tokens.colors.text,
           lineHeight: 1.25,
-          textOverflow: 'ellipsis',
+          textOverflow: 'ellipsis'
         }}
       >
         {product.name}

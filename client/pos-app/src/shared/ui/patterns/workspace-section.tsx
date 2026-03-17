@@ -24,7 +24,7 @@ export function WorkspaceSection({
         height: '100%',
         minHeight: 0,
         display: 'grid',
-        gridTemplateRows: 'auto 1fr',
+        gridTemplateRows: 'auto 1fr'
       }}
     >
       <div
@@ -34,7 +34,7 @@ export function WorkspaceSection({
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'start',
-          gap: tokens.spacing.md,
+          gap: tokens.spacing.md
         }}
       >
         <div>

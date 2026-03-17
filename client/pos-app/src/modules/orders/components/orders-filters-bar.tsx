@@ -22,7 +22,9 @@ export function OrdersFiltersBar() {
   const onlyCurrentShift = useOrdersWorkspaceStore((state) => state.onlyCurrentShift);
   const setSearchTerm = useOrdersWorkspaceStore((state) => state.setSearchTerm);
   const setSelectedStatus = useOrdersWorkspaceStore((state) => state.setSelectedStatus);
-  const setOnlyCurrentShift = useOrdersWorkspaceStore((state) => state.setOnlyCurrentShift);
+  const setOnlyCurrentShift = useOrdersWorkspaceStore(
+    (state) => state.setOnlyCurrentShift
+  );
   const clearFilters = useOrdersWorkspaceStore((state) => state.clearFilters);
 
   return (

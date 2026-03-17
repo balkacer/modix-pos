@@ -1,0 +1,5 @@
+
+
+> @modix/pkgs/logger@0.0.1 lint /Users/balkacer/Desktop/modix-pos/pkgs/logger
+> eslint src --ext .ts
+

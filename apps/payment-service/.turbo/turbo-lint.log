@@ -1,0 +1,13 @@
+
+
+> @modix/apps/payment-service@0.0.1 lint /Users/balkacer/Desktop/modix-pos/apps/payment-service
+> eslint src test --ext .ts
+
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.4
+
+No files matching the pattern "test" were found.
+Please check for typing mistakes in the pattern.
+

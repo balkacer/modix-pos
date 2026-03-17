@@ -167,7 +167,9 @@ export function CurrentOrderPanel() {
 
               <TicketTotalRow total={activeOrder.total} />
 
-              {activeOrder.notes ? <TicketInfoLine label="Notes" value={activeOrder.notes} /> : null}
+              {activeOrder.notes ? (
+                <TicketInfoLine label="Notes" value={activeOrder.notes} />
+              ) : null}
 
               {activeOrder.lastPaymentMethod ? (
                 <TicketInfoLine
@@ -204,7 +206,9 @@ export function CurrentOrderPanel() {
                   id="consumptionType"
                   label="Consumption type"
                   value={consumptionType}
-                  onChange={(event) => setConsumptionType(event.target.value as ConsumptionType)}
+                  onChange={(event) =>
+                    setConsumptionType(event.target.value as ConsumptionType)
+                  }
                 >
                   <option value={ConsumptionType.PICKUP}>Pickup</option>
                   <option value={ConsumptionType.TAKEAWAY}>Takeaway</option>
@@ -324,7 +328,10 @@ export function CurrentOrderPanel() {
         onCancel={() => setDeleteDraftDialogOpen(false)}
       />
 
-      <PaymentDialog open={paymentDialogOpen} onClose={() => setPaymentDialogOpen(false)} />
+      <PaymentDialog
+        open={paymentDialogOpen}
+        onClose={() => setPaymentDialogOpen(false)}
+      />
     </>
   );
 }
@@ -351,14 +358,18 @@ function TicketMetaRow({
       }}
     >
       <div>
-        <div style={{ fontSize: tokens.typography.caption, color: tokens.colors.textMuted }}>
+        <div
+          style={{ fontSize: tokens.typography.caption, color: tokens.colors.textMuted }}
+        >
           {leftLabel}
         </div>
         <div style={{ fontWeight: 700, textTransform: 'capitalize' }}>{leftValue}</div>
       </div>
 
       <div style={{ textAlign: 'right' }}>
-        <div style={{ fontSize: tokens.typography.caption, color: tokens.colors.textMuted }}>
+        <div
+          style={{ fontSize: tokens.typography.caption, color: tokens.colors.textMuted }}
+        >
           {rightLabel}
         </div>
         <div style={{ fontWeight: 700 }}>{rightValue}</div>

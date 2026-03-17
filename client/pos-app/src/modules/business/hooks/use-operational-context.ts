@@ -16,7 +16,6 @@ export function useOperationalContext() {
     activeBusiness,
     activeBranch,
     activeCashRegister,
-    isLoading:
-      isBusinessLoading || isBranchLoading || isCashRegisterLoading
+    isLoading: isBusinessLoading || isBranchLoading || isCashRegisterLoading
   };
 }
